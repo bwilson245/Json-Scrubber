@@ -19,8 +19,8 @@ public class ScrubberNoAsync {
     }
 
     /**
-     * This method will modify and return the JsonElement contained withing the ScrubberAsync Object based on the
-     * parameters provided to the ScrubberAsync object at creation.
+     * This method will modify and return the JsonElement contained withing the ScrubberNoAsync object based on the
+     * parameters provided to the ScrubberNoAsync object at creation.
      * @return - a JsonElement object with the desired values scrubbed.
      * @throws Exception
      */

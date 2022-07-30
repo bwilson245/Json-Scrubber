@@ -94,7 +94,6 @@ public class ScrubberAsync {
                 Callable<JsonElement> task;
                 if (entry.getValue().isJsonObject() || entry.getValue().isJsonArray()) {
                     task = () -> entry.setValue(scrubAll(entry.getValue()));
-
                     try {
                         task.call();
                     } catch (Exception e) {
