@@ -1,0 +1,125 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "This is a json scrubber for hiding sensitive information in a json object",
+    "version": "1.0",
+    "title": "Json Scrubber"
+  },
+  "schemes": [
+    "https"
+  ],
+  "paths": {
+    "/jsonscrubber": {
+      "put": {
+        "summary": "Submit a json object with the keywords and replacement value to get a new json object with the keywords scrubbed",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "ScrubRequest",
+            "description": "The object containing the required information",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ScrubRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Valid input",
+            "schema": {
+              "$ref": "#/definitions/Result"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "ScrubRequest": {
+      "type": "object",
+      "required": [
+        "replacementValue",
+        "keywords",
+        "jsonElement"
+      ],
+      "properties": {
+        "replacementValue": {
+          "type": "string",
+          "example": "*****"
+        },
+        "keywords": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "example": [
+              "key1",
+              "key2",
+              "key6"
+            ]
+          }
+        },
+        "jsonElement": {
+          "type": "object",
+          "example": {
+            "key1": "value1",
+            "key2": "value2",
+            "key3": [
+              {
+                "key4": "value4"
+              },
+              {
+                "key5": "value5"
+              },
+              {
+                "key6": [
+                  {
+                    "key7": "value7"
+                  },
+                  {
+                    "key8": "value8"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    "Result": {
+      "type": "object",
+      "properties": {
+        "result": {
+          "type": "object",
+          "example": {
+            "key1": "*****",
+            "key2": "*****",
+            "key3": [
+              {
+                "key4": "value4"
+              },
+              {
+                "key5": "value5"
+              },
+              {
+                "key6": [
+                  {
+                    "key7": "*****"
+                  },
+                  {
+                    "key8": "*****"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,3 +1,5 @@
+import com.amazonaws.services.lambda.runtime.Context;
+import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.google.gson.*;
 
 import java.util.List;
@@ -27,17 +29,22 @@ public class ScrubberAsync {
      * @throws Exception
      */
 
-    public JsonElement scrub() throws Exception {
+    public JsonElement handleRequest() {
         this.service = Executors.newCachedThreadPool();
-        scrub(element);
+        try {
+            scrub(element);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         service.shutdown();
         while (!service.isTerminated()) {
         }
         return element;
     }
+
     private JsonElement scrub(JsonElement element) throws Exception {
         if (element.isJsonObject()) {
-            element.getAsJsonObject().entrySet().stream().forEach(entry -> {
+            element.getAsJsonObject().entrySet().forEach(entry -> {
                 Callable<JsonElement> task;
                 if (keywords.contains(entry.getKey())) {
                     task =  () -> entry.setValue(scrubAll(entry.getValue()));
@@ -115,4 +122,5 @@ public class ScrubberAsync {
         }
         return element;
     }
+
 }

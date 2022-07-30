@@ -1,3 +1,5 @@
+import com.amazonaws.services.lambda.runtime.Context;
+import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.google.gson.*;
 
 import java.util.*;
@@ -23,7 +25,8 @@ public class ScrubberNoAsync {
      * @throws Exception
      */
 
-    public JsonElement scrub() {
+
+    public JsonElement handleRequest() {
         return scrub(element);
     }
 
@@ -78,4 +81,5 @@ public class ScrubberNoAsync {
         }
         return element;
     }
+
 }
