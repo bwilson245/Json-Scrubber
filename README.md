@@ -5,7 +5,7 @@ On massive json files, it makes a good bit of difference, so the entry point che
 Endpoint - https://7ext5vpeak.execute-api.us-east-1.amazonaws.com/Production/jsonscrubber
 
 Example input:
-...json
+'''json
 
 {
     "replacementValue": "*****",
@@ -38,11 +38,11 @@ Example input:
 }
 }
 
-...
+'''
 
 
 Output from the example above:
-...json
+'''json
 
 {
     "id": "*****",
@@ -101,4 +101,4 @@ Output from the example above:
     ]
 }
 
-...
+'''
