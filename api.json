@@ -67,24 +67,58 @@
         "jsonElement": {
           "type": "object",
           "example": {
-            "key1": "value1",
-            "key2": "value2",
-            "key3": [
+            "id": "0001",
+            "type": "donut",
+            "name": "Cake",
+            "ppu": 0.55,
+            "batters": {
+              "batter": [
+                {
+                  "id": "1001",
+                  "type": "Regular"
+                },
+                {
+                  "id": "1002",
+                  "type": "Chocolate"
+                },
+                {
+                  "id": "1003",
+                  "type": "Blueberry"
+                },
+                {
+                  "id": "1004",
+                  "type": "Devil's Food"
+                }
+              ]
+            },
+            "topping": [
               {
-                "key4": "value4"
+                "id": "5001",
+                "type": "None"
               },
               {
-                "key5": "value5"
+                "id": "5002",
+                "type": "Glazed"
               },
               {
-                "key6": [
-                  {
-                    "key7": "value7"
-                  },
-                  {
-                    "key8": "value8"
-                  }
-                ]
+                "id": "5005",
+                "type": "Sugar"
+              },
+              {
+                "id": "5007",
+                "type": "Powdered Sugar"
+              },
+              {
+                "id": "5006",
+                "type": "Chocolate with Sprinkles"
+              },
+              {
+                "id": "5003",
+                "type": "Chocolate"
+              },
+              {
+                "id": "5004",
+                "type": "Maple"
               }
             ]
           }
@@ -123,34 +157,68 @@
       },
       "example": {
         "jsonElement": {
-          "key1": "*****",
-          "key2": "*****",
-          "key3": [
+          "id": "*****",
+          "type": "donut",
+          "name": "Cake",
+          "ppu": 0.55,
+          "batters": {
+            "batter": [
+              {
+                "id": "*****",
+                "type": "Regular"
+              },
+              {
+                "id": "*****",
+                "type": "Chocolate"
+              },
+              {
+                "id": "*****",
+                "type": "Blueberry"
+              },
+              {
+                "id": "*****",
+                "type": "Devil's Food"
+              }
+            ]
+          },
+          "topping": [
             {
-              "key4": "value4"
+              "id": "*****",
+              "type": "*****"
             },
             {
-              "key5": "value5"
+              "id": "*****",
+              "type": "*****"
             },
             {
-              "key6": [
-                {
-                  "key7": "*****"
-                },
-                {
-                  "key8": "*****"
-                }
-              ]
+              "id": "*****",
+              "type": "*****"
+            },
+            {
+              "id": "*****",
+              "type": "*****"
+            },
+            {
+              "id": "*****",
+              "type": "*****"
+            },
+            {
+              "id": "*****",
+              "type": "*****"
+            },
+            {
+              "id": "*****",
+              "type": "*****"
             }
           ]
         },
         "statistics": {
-          "processTime": 3,
-          "totalElements": 8,
-          "totalObjects": 4,
+          "processTime": 0,
+          "totalElements": 41,
+          "totalObjects": 13,
           "totalArrays": 2,
-          "totalPrimitives": 2,
-          "totalScrubbedElements": 4
+          "totalPrimitives": 26,
+          "totalScrubbedElements": 19
         }
       }
     }
