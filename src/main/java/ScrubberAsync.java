@@ -1,7 +1,7 @@
-import com.amazonaws.services.lambda.runtime.Context;
-import com.amazonaws.services.lambda.runtime.RequestHandler;
+
 import com.google.gson.*;
 
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
@@ -15,11 +15,21 @@ public class ScrubberAsync {
     private final List<String> keywords;
     private final JsonPrimitive VALUE;
     private ExecutorService service;
+    private int totalElements;
+    private int totalObjects;
+    private int totalArrays;
+    private int totalPrimitives;
+    private int totalScubbedElements;
 
     public ScrubberAsync(ScrubRequest request) {
         this.element = request.getJsonElement().deepCopy();
         this.VALUE = JsonParser.parseString(request.getReplacementValue()).getAsJsonPrimitive();
         this.keywords = request.getKeywords();
+        this.totalElements = 0;
+        this.totalObjects = 0;
+        this.totalArrays = 0;
+        this.totalPrimitives = 0;
+        this.totalScubbedElements = 0;
     }
 
     /**
@@ -29,21 +39,32 @@ public class ScrubberAsync {
      * @throws Exception
      */
 
-    public JsonElement handleRequest() {
+    public ScrubResult handleRequest() {
         this.service = Executors.newCachedThreadPool();
+        long now = new Date().getTime();
         try {
-            scrub(element);
+            element = scrub(element);
         } catch (Exception e) {
             e.printStackTrace();
         }
         service.shutdown();
         while (!service.isTerminated()) {
         }
-        return element;
+        Statistics statistics = Statistics.builder()
+                .withProcessTime((double) Math.round((new Date().getTime() - now) * 100) / 100)
+                .withTotalElements(totalElements)
+                .withTotalObjects(totalObjects)
+                .withTotalArrays(totalArrays)
+                .withTotalPrimitives(totalPrimitives)
+                .withTotalScrubbedElements(totalScubbedElements)
+                .build();
+        return new ScrubResult(element, statistics);
     }
 
     private JsonElement scrub(JsonElement element) throws Exception {
+        totalElements++;
         if (element.isJsonObject()) {
+            totalObjects++;
             element.getAsJsonObject().entrySet().forEach(entry -> {
                 Callable<JsonElement> task;
                 if (keywords.contains(entry.getKey())) {
@@ -53,70 +74,60 @@ public class ScrubberAsync {
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-                } else if (entry.getValue().isJsonObject() || entry.getValue().isJsonArray()) {
+                } else {
                     task = () -> entry.setValue(scrub(entry.getValue()));
                     try {
                         task.call();
                     } catch (Exception e) {
                         throw new RuntimeException("Error during scrubbing", e.getCause());
                     }
-                } else if (entry.getValue().isJsonPrimitive() && keywords.contains(entry.getValue().toString())) {
-                    entry.setValue(VALUE);
                 }
             });
         } else if (element.isJsonArray()) {
+            totalArrays++;
             JsonArray array = element.getAsJsonArray();
             for (int i = 0; i < element.getAsJsonArray().size(); i++) {
                 JsonElement e = array.get(i);
-                if (e.isJsonObject() || e.isJsonArray()) {
-                    int finalI = i;
-                    Callable<JsonElement> task = () -> array.set(finalI, scrub(e));
-                    task.call();
-                }
-                if (e.isJsonPrimitive()) {
-                    if (keywords.contains(e.getAsJsonPrimitive().toString())) {
-                        element.getAsJsonArray().set(i, VALUE);
-                    }
-                }
+                int finalI = i;
+                Callable<JsonElement> task = () -> array.set(finalI, scrub(e));
+                task.call();
             }
         } else if (element.isJsonPrimitive()) {
+            totalPrimitives++;
             if (keywords.contains(element.getAsJsonPrimitive().toString())) {
+                totalScubbedElements++;
                 element = VALUE;
             }
         }
-
         return element;
     }
 
     private JsonElement scrubAll(JsonElement element) throws Exception {
+        totalElements++;
         if (element.isJsonObject()) {
+            totalObjects++;
             element.getAsJsonObject().entrySet().forEach(entry -> {
                 Callable<JsonElement> task;
-                if (entry.getValue().isJsonObject() || entry.getValue().isJsonArray()) {
-                    task = () -> entry.setValue(scrubAll(entry.getValue()));
-                    try {
-                        task.call();
-                    } catch (Exception e) {
-                        throw new RuntimeException("Error during scrubbing", e.getCause());
-                    }
-                } else if (entry.getValue().isJsonPrimitive()) {
-                    entry.setValue(VALUE);
+                task = () -> entry.setValue(scrubAll(entry.getValue()));
+                try {
+                    task.call();
+                } catch (Exception e) {
+                    throw new RuntimeException("Error during scrubbing", e.getCause());
                 }
             });
         } else if (element.isJsonArray()) {
+            totalArrays++;
             JsonArray array = element.getAsJsonArray();
             for (int i = 0; i < element.getAsJsonArray().size(); i++) {
                 JsonElement e = array.get(i);
                 Callable<JsonElement> task;
-                if (e.isJsonArray() || e.isJsonObject()) {
-                    int finalI = i;
-                    task = () -> array.set(finalI, scrubAll(e));
-                    task.call();
-                } else if (e.isJsonPrimitive()) {
-                    array.set(i, VALUE);
-                }
+                int finalI = i;
+                task = () -> array.set(finalI, scrubAll(e));
+                task.call();
             }
         } else if (element.isJsonPrimitive()) {
+            totalPrimitives++;
+            totalScubbedElements++;
             element = VALUE;
         }
         return element;

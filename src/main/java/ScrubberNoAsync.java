@@ -11,11 +11,22 @@ public class ScrubberNoAsync {
     private JsonElement element;
     private final List<String> keywords;
     private final JsonPrimitive VALUE;
+    private int totalElements;
+    private int totalObjects;
+    private int totalArrays;
+    private int totalPrimitives;
+    private int totalScubbedElements;
+
 
     public ScrubberNoAsync(ScrubRequest request) {
         this.element = request.getJsonElement();
         this.VALUE = JsonParser.parseString(request.getReplacementValue()).getAsJsonPrimitive();
         this.keywords = request.getKeywords();
+        this.totalElements = 0;
+        this.totalObjects = 0;
+        this.totalArrays = 0;
+        this.totalPrimitives = 0;
+        this.totalScubbedElements = 0;
     }
 
     /**
@@ -26,57 +37,61 @@ public class ScrubberNoAsync {
      */
 
 
-    public JsonElement handleRequest() {
-        return scrub(element);
+    public ScrubResult handleRequest() {
+        long now = new Date().getTime();
+        element = scrub(element);
+        Statistics statistics = Statistics.builder()
+                .withProcessTime((double) Math.round((new Date().getTime() - now) * 100) / 100)
+                .withTotalElements(totalElements)
+                .withTotalObjects(totalObjects)
+                .withTotalArrays(totalArrays)
+                .withTotalPrimitives(totalPrimitives)
+                .withTotalScrubbedElements(totalScubbedElements)
+                .build();
+        return new ScrubResult(element, statistics);
     }
 
     private JsonElement scrub(JsonElement element) {
+        totalElements++;
         if (element.isJsonObject()) {
+            totalObjects++;
             for (Map.Entry<String, JsonElement> entry : element.getAsJsonObject().entrySet()) {
                 if (keywords.contains(entry.getKey())) {
                     entry.setValue(scrubAll(entry.getValue()));
-                }
-                if (entry.getValue().isJsonObject() || entry.getValue().isJsonArray()) {
+                } else {
                     entry.setValue(scrub(entry.getValue()));
-                }
-                if (entry.getValue().isJsonPrimitive()) {
-                    if (keywords.contains(entry.getValue().toString())) {
-                        entry.setValue(VALUE);
-                    }
                 }
             }
         } else if (element.isJsonArray()) {
+            totalArrays++;
             for (int i = 0; i < element.getAsJsonArray().size(); i++) {
-                JsonElement e = element.getAsJsonArray().get(i);
-                if (e.isJsonObject() || e.isJsonArray()) {
-                    element.getAsJsonArray().set(i, scrub(e));
-                }
-                if (e.isJsonPrimitive()) {
-                    if (keywords.contains(e.getAsJsonPrimitive().toString())) {
-                        element.getAsJsonArray().set(i, VALUE);
-                    }
-                }
+                element.getAsJsonArray().set(i, scrub(element.getAsJsonArray().get(i)));
             }
         } else if (element.isJsonPrimitive()) {
+            totalPrimitives++;
             if (keywords.contains(element.getAsJsonPrimitive().toString())) {
+                totalScubbedElements++;
                 element = VALUE;
             }
         }
-
         return element;
     }
 
     private JsonElement scrubAll(JsonElement element) {
+        totalElements++;
         if (element.isJsonObject()) {
+            totalObjects++;
             for (Map.Entry<String, JsonElement> entry : element.getAsJsonObject().entrySet()) {
                 entry.setValue(scrubAll(entry.getValue()));
             }
         } else if (element.isJsonArray()) {
+            totalArrays++;
             for (int i = 0; i < element.getAsJsonArray().size(); i++) {
-                JsonElement e = element.getAsJsonArray().get(i);
-                element.getAsJsonArray().set(i, scrubAll(e));
+                element.getAsJsonArray().set(i, scrubAll(element.getAsJsonArray().get(i)));
             }
         } else if (element.isJsonPrimitive()) {
+            totalPrimitives++;
+            totalScubbedElements++;
             element = VALUE;
         }
         return element;

@@ -33,7 +33,7 @@
           "200": {
             "description": "Valid input",
             "schema": {
-              "$ref": "#/definitions/Result"
+              "$ref": "#/definitions/ScrubResult"
             }
           }
         }
@@ -91,33 +91,66 @@
         }
       }
     },
-    "Result": {
+    "ScrubResult": {
       "type": "object",
       "properties": {
-        "result": {
+        "jSonElement": {
+          "type": "object"
+        },
+        "statistics": {
           "type": "object",
-          "example": {
-            "key1": "*****",
-            "key2": "*****",
-            "key3": [
-              {
-                "key4": "value4"
-              },
-              {
-                "key5": "value5"
-              },
-              {
-                "key6": [
-                  {
-                    "key7": "*****"
-                  },
-                  {
-                    "key8": "*****"
-                  }
-                ]
-              }
-            ]
+          "properties": {
+            "processTime": {
+              "type": "number"
+            },
+            "totalElements": {
+              "type": "number"
+            },
+            "totalObjects": {
+              "type": "number"
+            },
+            "totalArrays": {
+              "type": "number"
+            },
+            "totalPrimitives": {
+              "type": "number"
+            },
+            "totalScrubbedElements": {
+              "type": "number"
+            }
           }
+        }
+      },
+      "example": {
+        "jsonElement": {
+          "key1": "*****",
+          "key2": "*****",
+          "key3": [
+            {
+              "key4": "value4"
+            },
+            {
+              "key5": "value5"
+            },
+            {
+              "key6": [
+                {
+                  "key7": "*****"
+                },
+                {
+                  "key8": "*****"
+                }
+              ]
+            }
+          ]
+        },
+        "statistics": {
+          "processTime": 3,
+          "totalElements": 8,
+          "totalObjects": 4,
+          "totalArrays": 2,
+          "totalPrimitives": 2,
+          "totalScrubbedElements": 4
         }
       }
     }
