@@ -16,10 +16,6 @@ dependencies {
 
     implementation group: 'com.google.code.gson', name: 'gson', version: '2.9.0'
 
-
-
-
-
     // Added for AWS Lambda Functions
     implementation 'com.amazonaws:aws-lambda-java-core:1.2.1'
     implementation 'com.amazonaws:aws-lambda-java-events:3.11.0'

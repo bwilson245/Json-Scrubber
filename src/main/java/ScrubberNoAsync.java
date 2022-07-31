@@ -3,6 +3,7 @@ import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.google.gson.*;
 
 import java.util.*;
+import java.util.stream.IntStream;
 
 /**
  * This is the NonAsync version. Uses an iterative approach to scrub the data.
@@ -55,13 +56,13 @@ public class ScrubberNoAsync {
         totalElements++;
         if (element.isJsonObject()) {
             totalObjects++;
-            for (Map.Entry<String, JsonElement> entry : element.getAsJsonObject().entrySet()) {
+            element.getAsJsonObject().entrySet().forEach(entry -> {
                 if (keywords.contains(entry.getKey())) {
                     entry.setValue(scrubAll(entry.getValue()));
                 } else {
                     entry.setValue(scrub(entry.getValue()));
                 }
-            }
+            });
         } else if (element.isJsonArray()) {
             totalArrays++;
             for (int i = 0; i < element.getAsJsonArray().size(); i++) {
@@ -81,9 +82,7 @@ public class ScrubberNoAsync {
         totalElements++;
         if (element.isJsonObject()) {
             totalObjects++;
-            for (Map.Entry<String, JsonElement> entry : element.getAsJsonObject().entrySet()) {
-                entry.setValue(scrubAll(entry.getValue()));
-            }
+            element.getAsJsonObject().entrySet().forEach(entry -> entry.setValue(scrubAll(entry.getValue())));
         } else if (element.isJsonArray()) {
             totalArrays++;
             for (int i = 0; i < element.getAsJsonArray().size(); i++) {

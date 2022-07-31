@@ -72,7 +72,7 @@ public class ScrubbingActivityProvider implements RequestHandler<ScrubRequest, O
         ScrubRequest request6 = new ScrubRequest("*****", keywords, element6);
         ScrubRequest request7 = new ScrubRequest("*****", keywords, element7);
 
-        List<ScrubRequest> requests = List.of(request1, request2, request3, request4, request5, request6, request7, request1, request2, request3, request4, request5, request6, request7, request1, request2, request3, request4, request5, request6, request7, request1, request2, request3, request4, request5, request6, request7);
+        List<ScrubRequest> requests = List.of(request1, request2, request3, request4, request5, request6, request7);
 
         List<ScrubResult> asyncResults = new ArrayList<>();
         List<ScrubResult> nonAsyncResults = new ArrayList<>();
