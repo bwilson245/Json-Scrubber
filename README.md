@@ -45,60 +45,70 @@ Output from the example above:
 ```json
 
 {
-    "id": "*****",
-    "type": "donut",
-    "name": "Cake",
-    "ppu": 0.55,
-    "batters": {
-        "batter": [
+    "jsonElement": {
+        "id": "*****",
+        "type": "donut",
+        "name": "Cake",
+        "ppu": 0.55,
+        "batters": {
+            "batter": [
+                {
+                    "id": "*****",
+                    "type": "Regular"
+                },
+                {
+                    "id": "*****",
+                    "type": "Chocolate"
+                },
+                {
+                    "id": "*****",
+                    "type": "Blueberry"
+                },
+                {
+                    "id": "*****",
+                    "type": "Devil's Food"
+                }
+            ]
+        },
+        "topping": [
             {
                 "id": "*****",
-                "type": "Regular"
+                "type": "*****"
             },
             {
                 "id": "*****",
-                "type": "Chocolate"
+                "type": "*****"
             },
             {
                 "id": "*****",
-                "type": "Blueberry"
+                "type": "*****"
             },
             {
                 "id": "*****",
-                "type": "Devil's Food"
+                "type": "*****"
+            },
+            {
+                "id": "*****",
+                "type": "*****"
+            },
+            {
+                "id": "*****",
+                "type": "*****"
+            },
+            {
+                "id": "*****",
+                "type": "*****"
             }
         ]
     },
-    "topping": [
-        {
-            "id": "*****",
-            "type": "*****"
-        },
-        {
-            "id": "*****",
-            "type": "*****"
-        },
-        {
-            "id": "*****",
-            "type": "*****"
-        },
-        {
-            "id": "*****",
-            "type": "*****"
-        },
-        {
-            "id": "*****",
-            "type": "*****"
-        },
-        {
-            "id": "*****",
-            "type": "*****"
-        },
-        {
-            "id": "*****",
-            "type": "*****"
-        }
-    ]
+    "statistics": {
+        "processTime": 1.0,
+        "totalElements": 41,
+        "totalObjects": 13,
+        "totalArrays": 2,
+        "totalPrimitives": 26,
+        "totalScrubbedElements": 19
+    }
 }
 
 ```
