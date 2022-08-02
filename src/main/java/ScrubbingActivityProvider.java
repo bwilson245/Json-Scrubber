@@ -50,13 +50,14 @@ public class ScrubbingActivityProvider implements RequestHandler<ScrubRequest, O
 
 
     public static void main(String[] args) throws Exception {
-        JsonElement element1 = JsonParser.parseReader(new FileReader("C:\\Users\\benwi\\IdeaProjects\\json-scrubber\\Json-Scrubber\\src\\main\\java\\samplejsondata\\exchangerate.json"));
-        JsonElement element2 = JsonParser.parseReader(new FileReader("C:\\Users\\benwi\\IdeaProjects\\json-scrubber\\Json-Scrubber\\src\\main\\java\\samplejsondata\\foodfacts.json"));
-        JsonElement element3 = JsonParser.parseReader(new FileReader("C:\\Users\\benwi\\IdeaProjects\\json-scrubber\\Json-Scrubber\\src\\main\\java\\samplejsondata\\json.json"));
-        JsonElement element4 = JsonParser.parseReader(new FileReader("C:\\Users\\benwi\\IdeaProjects\\json-scrubber\\Json-Scrubber\\src\\main\\java\\samplejsondata\\large-file.json"));
-        JsonElement element5 = JsonParser.parseReader(new FileReader("C:\\Users\\benwi\\IdeaProjects\\json-scrubber\\Json-Scrubber\\src\\main\\java\\samplejsondata\\reddit.json"));
-        JsonElement element6 = JsonParser.parseReader(new FileReader("C:\\Users\\benwi\\IdeaProjects\\json-scrubber\\Json-Scrubber\\src\\main\\java\\samplejsondata\\statecodes.json"));
-        JsonElement element7 = JsonParser.parseReader(new FileReader("C:\\Users\\benwi\\IdeaProjects\\json-scrubber\\Json-Scrubber\\src\\main\\java\\samplejsondata\\streetcrimedates.json"));
+        // Replace these file paths with your own file path.
+        JsonElement element1 = JsonParser.parseReader(new FileReader("C:\\exchangerate.json"));
+        JsonElement element2 = JsonParser.parseReader(new FileReader("C:\\foodfacts.json"));
+        JsonElement element3 = JsonParser.parseReader(new FileReader("C:\\json.json"));
+        JsonElement element4 = JsonParser.parseReader(new FileReader("C:\\large-file.json"));
+        JsonElement element5 = JsonParser.parseReader(new FileReader("C:\\reddit.json"));
+        JsonElement element6 = JsonParser.parseReader(new FileReader("C:\\statecodes.json"));
+        JsonElement element7 = JsonParser.parseReader(new FileReader("C:\\streetcrimedates.json"));
 
         List<String> keywords = List.of("date", "type", "name", "uuid", "state", "status", "update_key", "height", "width", "locked", "provider", "terms", "created_at");
 
