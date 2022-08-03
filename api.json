@@ -213,7 +213,7 @@
           ]
         },
         "statistics": {
-          "processTime": 0,
+          "processTimeInNanoSeconds": 0,
           "totalElements": 41,
           "totalObjects": 13,
           "totalArrays": 2,

@@ -1,13 +1,13 @@
 public class Statistics {
-    private double processTime;
+    private double processTimeInMicroSeconds;
     private int totalElements;
     private int totalObjects;
     private int totalArrays;
     private int totalPrimitives;
     private int totalScrubbedElements;
 
-    public Statistics(double processTime, int totalElements, int totalObjects, int totalArrays, int totalPrimitives, int totalScrubbedElements) {
-        this.processTime = processTime;
+    public Statistics(double processTimeInMicroSeconds, int totalElements, int totalObjects, int totalArrays, int totalPrimitives, int totalScrubbedElements) {
+        this.processTimeInMicroSeconds = processTimeInMicroSeconds;
         this.totalElements = totalElements;
         this.totalObjects = totalObjects;
         this.totalArrays = totalArrays;
@@ -15,11 +15,11 @@ public class Statistics {
         this.totalScrubbedElements = totalScrubbedElements;
     }
 
-    public double getProcessTime() {
-        return processTime;
+    public double getProcessTimeInMicroSeconds() {
+        return processTimeInMicroSeconds;
     }
-    public void setProcessTime(double processTime) {
-        this.processTime = processTime;
+    public void setProcessTimeInMicroSeconds(double processTimeInMicroSeconds) {
+        this.processTimeInMicroSeconds = processTimeInMicroSeconds;
     }
     public int getTotalElements() {
         return totalElements;
@@ -54,7 +54,7 @@ public class Statistics {
 
     @Override
     public String toString() {
-        return "Statistics{" + "processTime=" + processTime + ", totalElements=" + totalElements + ", totalObjects=" + totalObjects + ", totalArrays=" + totalArrays + ", totalPrimitives=" + totalPrimitives + ", totalScrubbedElements=" + totalScrubbedElements + '}';
+        return "Statistics{" + "processTimeInMicroSeconds=" + processTimeInMicroSeconds + ", totalElements=" + totalElements + ", totalObjects=" + totalObjects + ", totalArrays=" + totalArrays + ", totalPrimitives=" + totalPrimitives + ", totalScrubbedElements=" + totalScrubbedElements + '}';
     }
     public static Builder builder() {
         return new Builder();

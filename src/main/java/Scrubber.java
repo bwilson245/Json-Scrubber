@@ -1,62 +1,63 @@
-
 import com.google.gson.*;
 
-import java.util.Date;
+import java.text.DecimalFormat;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 /**
  * This is the Async version. Uses ExecutorService to provide multiple threads.
  */
-public class ScrubberAsync {
-    private JsonElement element;
-    private final List<String> keywords;
-    private final JsonPrimitive VALUE;
-    private ExecutorService service;
-    private int totalElements;
-    private int totalObjects;
-    private int totalArrays;
-    private int totalPrimitives;
-    private int totalScubbedElements;
+public class Scrubber {
+    public JsonElement element;
+    public List<String> keywords;
+    public JsonPrimitive VALUE;
+    public int totalElements;
+    public int totalObjects;
+    public int totalArrays;
+    public int totalPrimitives;
+    public int totalScrubbedElements;
+    private final ExecutorService service;
 
-    public ScrubberAsync(ScrubRequest request) {
-        this.element = request.getJsonElement().deepCopy();
-        this.VALUE = JsonParser.parseString(request.getReplacementValue()).getAsJsonPrimitive();
+    public Scrubber(ScrubRequest request) {
+        this.service = Executors.newCachedThreadPool();
+        this.element = request.getJsonElement();
         this.keywords = request.getKeywords();
+        this.VALUE = JsonParser.parseString(new Gson().toJson(request.getReplacementValue())).getAsJsonPrimitive();
         this.totalElements = 0;
         this.totalObjects = 0;
         this.totalArrays = 0;
         this.totalPrimitives = 0;
-        this.totalScubbedElements = 0;
+        this.totalScrubbedElements = 0;
     }
-
     /**
-     * This method will modify and return the JsonElement contained withing the ScrubberAsync Object based on the
-     * parameters provided to the ScrubberAsync object at creation.
+     * This method will modify and return the JsonElement contained withing the Scrubber Object based on the
+     * parameters provided to the Scrubber object at creation.
      * @return - a JsonElement object with the desired values scrubbed.
      * @throws Exception
      */
 
     public ScrubResult handleRequest() {
-        this.service = Executors.newCachedThreadPool();
-        long now = new Date().getTime();
+        long now = System.nanoTime();
         try {
             element = scrub(element);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        service.shutdown();
-        while (!service.isTerminated()) {
+        this.service.shutdown();
+        while (!this.service.isTerminated()) {
         }
+        long totalTimeInMicroSeconds = (System.nanoTime() - now);
+        totalTimeInMicroSeconds = TimeUnit.MICROSECONDS.convert(totalTimeInMicroSeconds, TimeUnit.NANOSECONDS);
         Statistics statistics = Statistics.builder()
-                .withProcessTime((double) Math.round((new Date().getTime() - now) * 100) / 100)
+                .withProcessTime(totalTimeInMicroSeconds)
                 .withTotalElements(totalElements)
                 .withTotalObjects(totalObjects)
                 .withTotalArrays(totalArrays)
                 .withTotalPrimitives(totalPrimitives)
-                .withTotalScrubbedElements(totalScubbedElements)
+                .withTotalScrubbedElements(totalScrubbedElements)
                 .build();
         return new ScrubResult(element, statistics);
     }
@@ -95,7 +96,7 @@ public class ScrubberAsync {
         } else if (element.isJsonPrimitive()) {
             totalPrimitives++;
             if (keywords.contains(element.getAsJsonPrimitive().toString())) {
-                totalScubbedElements++;
+                totalScrubbedElements++;
                 element = VALUE;
             }
         }
@@ -127,7 +128,7 @@ public class ScrubberAsync {
             }
         } else if (element.isJsonPrimitive()) {
             totalPrimitives++;
-            totalScubbedElements++;
+            totalScrubbedElements++;
             element = VALUE;
         }
         return element;

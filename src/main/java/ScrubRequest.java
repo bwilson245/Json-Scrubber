@@ -12,10 +12,10 @@ public class ScrubRequest {
 
     public ScrubRequest() {}
 
-    public ScrubRequest(String replacementValue, List<String> keywords, Object jsonElement) {
+    public ScrubRequest(String replacementValue, List<String> keywords, String jsonElement) {
         this.replacementValue = replacementValue;
         this.keywords = keywords;
-        this.jsonElement = JsonParser.parseString(new Gson().toJson(jsonElement));
+        this.jsonElement = JsonParser.parseString(jsonElement);
     }
 
     public String getReplacementValue() {
