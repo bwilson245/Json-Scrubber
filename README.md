@@ -23,7 +23,6 @@ Example input:
             "key4":
                 [
                     {
-                        "key4": "value4",
                         "key5": "value5",
                         "key6": "value6",
                         "key7": "value7",
@@ -52,7 +51,6 @@ Output from the example above:
         "key3": "value3",
         "key4": [
             {
-                "key4": "value4",
                 "key5": "*****",
                 "key6": "value6",
                 "key7": "value7",
@@ -66,11 +64,11 @@ Output from the example above:
         ]
     },
     "statistics": {
-        "processTimeInMicroSeconds": 17610.0,
-        "totalElements": 14,
+        "processTimeInMicroSeconds": 98.0,
+        "totalElements": 13,
         "totalObjects": 3,
         "totalArrays": 2,
-        "totalPrimitives": 9,
+        "totalPrimitives": 8,
         "totalScrubbedElements": 5
     }
 }
