@@ -1,6 +1,5 @@
 # Json-Scrubber
-This is a tool for scrubbing sensitive information from a json object. The request body accepts a ScrubRequest that requires a json element, a list of keywords you want to be scrubbed, and a value to put in place of the scrubbed value. It uses ExecutorService to execute the methods on multiple threads if the character count of the json object is greater than 25 million, otherwise it uses an iterative approach. The overhead of creating new threads is too costly when the size of the json is small-medium.
-On massive json files, it makes a good bit of difference, so the entry point checks the size of the json object before deciding which method to execute.
+This is a tool for scrubbing sensitive information from a json object. The request body accepts a ScrubRequest that requires a json element, a list of keywords you want to be scrubbed, and a value to put in place of the scrubbed value. It uses ExecutorService to execute the methods on multiple threads. It returns a Scrub result that contains the scrubbed json element and a Statistics object to show the time it took to scrub the object, the total number of elements, total number of objects, total number of arrays, total number of primitives, and the total number of scrubbed elements.
 
 Endpoint - PUT https://7ext5vpeak.execute-api.us-east-1.amazonaws.com/Production/jsonscrubber
 
@@ -9,33 +8,35 @@ Example input:
 
 {
     "replacementValue": "*****",
-    "keywords": ["id", "topping"],
-    "jsonElement": {
-	"id": "0001",
-	"type": "donut",
-	"name": "Cake",
-	"ppu": 0.55,
-	"batters":
-		{
-			"batter":
-				[
-					{ "id": "1001", "type": "Regular" },
-					{ "id": "1002", "type": "Chocolate" },
-					{ "id": "1003", "type": "Blueberry" },
-					{ "id": "1004", "type": "Devil's Food" }
-				]
-		},
-	"topping":
-		[
-			{ "id": "5001", "type": "None" },
-			{ "id": "5002", "type": "Glazed" },
-			{ "id": "5005", "type": "Sugar" },
-			{ "id": "5007", "type": "Powdered Sugar" },
-			{ "id": "5006", "type": "Chocolate with Sprinkles" },
-			{ "id": "5003", "type": "Chocolate" },
-			{ "id": "5004", "type": "Maple" }
-		]
-}
+    "keywords": 
+        [
+            "key1",
+            "key2",
+            "key5",
+            "key8"
+        ],
+    "jsonElement": 
+        {
+            "key1": "value1",
+            "key2": "value2",
+            "key3": "value3",
+            "key4":
+                [
+                    {
+                        "key4": "value4",
+                        "key5": "value5",
+                        "key6": "value6",
+                        "key7": "value7",
+                        "key8": 
+                            [
+                                {
+                                    "key9": "value9",
+                                    "key10": "value10"
+                                }
+                            ]
+                    }
+                ]
+        }
 }
 
 ```
@@ -46,68 +47,31 @@ Output from the example above:
 
 {
     "jsonElement": {
-        "id": "*****",
-        "type": "donut",
-        "name": "Cake",
-        "ppu": 0.55,
-        "batters": {
-            "batter": [
-                {
-                    "id": "*****",
-                    "type": "Regular"
-                },
-                {
-                    "id": "*****",
-                    "type": "Chocolate"
-                },
-                {
-                    "id": "*****",
-                    "type": "Blueberry"
-                },
-                {
-                    "id": "*****",
-                    "type": "Devil's Food"
-                }
-            ]
-        },
-        "topping": [
+        "key1": "*****",
+        "key2": "*****",
+        "key3": "value3",
+        "key4": [
             {
-                "id": "*****",
-                "type": "*****"
-            },
-            {
-                "id": "*****",
-                "type": "*****"
-            },
-            {
-                "id": "*****",
-                "type": "*****"
-            },
-            {
-                "id": "*****",
-                "type": "*****"
-            },
-            {
-                "id": "*****",
-                "type": "*****"
-            },
-            {
-                "id": "*****",
-                "type": "*****"
-            },
-            {
-                "id": "*****",
-                "type": "*****"
+                "key4": "value4",
+                "key5": "*****",
+                "key6": "value6",
+                "key7": "value7",
+                "key8": [
+                    {
+                        "key9": "*****",
+                        "key10": "*****"
+                    }
+                ]
             }
         ]
     },
     "statistics": {
-        "processTime": 1.0,
-        "totalElements": 41,
-        "totalObjects": 13,
+        "processTimeInMicroSeconds": 17610.0,
+        "totalElements": 14,
+        "totalObjects": 3,
         "totalArrays": 2,
-        "totalPrimitives": 26,
-        "totalScrubbedElements": 19
+        "totalPrimitives": 9,
+        "totalScrubbedElements": 5
     }
 }
 
