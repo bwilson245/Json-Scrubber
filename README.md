@@ -15,27 +15,20 @@ Example input:
             "key5",
             "key8"
         ],
-    "jsonElement": 
-        {
-            "key1": "value1",
-            "key2": "value2",
-            "key3": "value3",
-            "key4":
-                [
-                    {
-                        "key5": "value5",
-                        "key6": "value6",
-                        "key7": "value7",
-                        "key8": 
-                            [
-                                {
-                                    "key9": "value9",
-                                    "key10": "value10"
-                                }
-                            ]
-                    }
-                ]
+    "jsonElement": {
+        "key1": "value1",
+        "key2": null,
+        "key3": "value3",
+        "key4": {
+            "key5": "value5",
+            "key6": "value6",
+            "key7": "value7",
+            "key8": [
+                    "value9",
+                    "value10"
+            ]
         }
+    }
 }
 
 ```
@@ -49,26 +42,23 @@ Output from the example above:
         "key1": "*****",
         "key2": "*****",
         "key3": "value3",
-        "key4": [
-            {
-                "key5": "*****",
-                "key6": "value6",
-                "key7": "value7",
-                "key8": [
-                    {
-                        "key9": "*****",
-                        "key10": "*****"
-                    }
-                ]
-            }
-        ]
+        "key4": {
+            "key5": "*****",
+            "key6": "value6",
+            "key7": "value7",
+            "key8": [
+                "*****",
+                "*****"
+            ]
+        }
     },
     "statistics": {
-        "processTimeInMicroSeconds": 98.0,
-        "totalElements": 13,
-        "totalObjects": 3,
-        "totalArrays": 2,
-        "totalPrimitives": 8,
+        "processTimeInMicroSeconds": 87.0,
+        "totalElements": 10,
+        "totalObjects": 1,
+        "totalArrays": 0,
+        "totalPrimitives": 7,
+        "totalNull": 1,
         "totalScrubbedElements": 5
     }
 }
