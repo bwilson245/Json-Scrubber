@@ -1,5 +1,5 @@
 # Json-Scrubber
-This is a tool for scrubbing sensitive information from a json object. The request body accepts a ScrubRequest that requires a json element, a list of keywords you want to be scrubbed, and a value to put in place of the scrubbed value. It uses ExecutorService to execute the methods on multiple threads. It returns a Scrub result that contains the scrubbed json element and a Statistics object to show the time it took to scrub the object, the total number of elements, total number of objects, total number of arrays, total number of primitives, and the total number of scrubbed elements.
+This is a tool for scrubbing sensitive information from a json object. The request body accepts a ScrubRequest that requires a json element, a list of keywords you want to be scrubbed, and a value to put in place of the scrubbed value. It uses ExecutorService to execute the methods on multiple threads. It returns a Scrub result that contains the scrubbed json element and a Statistics object to show the time it took to scrub the object, the total number of elements, total number of objects, total number of arrays, total number of primitives total number of nulls, and the total number of scrubbed elements.
 
 Endpoint - PUT https://7ext5vpeak.execute-api.us-east-1.amazonaws.com/Production/jsonscrubber
 
