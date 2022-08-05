@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="ScrubberProviderTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2022-08-03T00:07:59" hostname="BENWILSON" time="2.158">
+<testsuite name="ScrubberProviderTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2022-08-05T23:05:45" hostname="BENWILSON" time="2.245">
   <properties/>
-  <testcase name="handleRequest_multipleJsonFiles_allFilesAreScrubbed()" classname="ScrubberProviderTest" time="2.158"/>
+  <testcase name="handleRequest_multipleJsonFiles_allFilesAreScrubbed()" classname="ScrubberProviderTest" time="2.245"/>
   <system-out><![CDATA[********************************************************************************************************************************************************************************************************
-provided request  --- Statistics{processTimeInMicroSeconds=1202.0, totalElements=170, totalObjects=2, totalArrays=0, totalPrimitives=168, totalScrubbedElements=3}
+provided request  --- Statistics{processTimeInMicroSeconds=1081.0, totalElements=169, totalObjects=1, totalArrays=0, totalPrimitives=168, totalNull=0, totalScrubbedElements=3}
 ********************************************************************************************************************************************************************************************************
-provided request  --- Statistics{processTimeInMicroSeconds=3023.0, totalElements=1722, totalObjects=149, totalArrays=124, totalPrimitives=1391, totalScrubbedElements=24}
+provided request  --- Statistics{processTimeInMicroSeconds=3617.0, totalElements=1721, totalObjects=148, totalArrays=123, totalPrimitives=1391, totalNull=58, totalScrubbedElements=24}
 ********************************************************************************************************************************************************************************************************
-provided request  --- Statistics{processTimeInMicroSeconds=180.0, totalElements=351, totalObjects=44, totalArrays=101, totalPrimitives=206, totalScrubbedElements=101}
+provided request  --- Statistics{processTimeInMicroSeconds=261.0, totalElements=350, totalObjects=43, totalArrays=100, totalPrimitives=206, totalNull=0, totalScrubbedElements=101}
 ********************************************************************************************************************************************************************************************************
-provided request  --- Statistics{processTimeInMicroSeconds=254405.0, totalElements=637595, totalObjects=88593, totalArrays=7326, totalPrimitives=531479, totalScrubbedElements=118189}
+provided request  --- Statistics{processTimeInMicroSeconds=256524.0, totalElements=637594, totalObjects=88592, totalArrays=7325, totalPrimitives=531479, totalNull=10197, totalScrubbedElements=118200}
 ********************************************************************************************************************************************************************************************************
-provided request  --- Statistics{processTimeInMicroSeconds=1477.0, totalElements=10687, totalObjects=1446, totalArrays=420, totalPrimitives=7062, totalScrubbedElements=2395}
+provided request  --- Statistics{processTimeInMicroSeconds=1487.0, totalElements=10686, totalObjects=1445, totalArrays=419, totalPrimitives=7062, totalNull=1759, totalScrubbedElements=2395}
 ********************************************************************************************************************************************************************************************************
-provided request  --- Statistics{processTimeInMicroSeconds=30.0, totalElements=150, totalObjects=75, totalArrays=1, totalPrimitives=74, totalScrubbedElements=37}
+provided request  --- Statistics{processTimeInMicroSeconds=27.0, totalElements=149, totalObjects=74, totalArrays=0, totalPrimitives=74, totalNull=0, totalScrubbedElements=37}
 ********************************************************************************************************************************************************************************************************
-provided request  --- Statistics{processTimeInMicroSeconds=229.0, totalElements=1640, totalObjects=36, totalArrays=37, totalPrimitives=1567, totalScrubbedElements=36}
+provided request  --- Statistics{processTimeInMicroSeconds=247.0, totalElements=1639, totalObjects=35, totalArrays=36, totalPrimitives=1567, totalNull=0, totalScrubbedElements=36}
 
-total process time:    --- 260546.0 microseconds.
-average process time:  --- 37220.857142857145 microseconds.
+total process time:    --- 263244.0 microseconds.
+average process time:  --- 37606.28571428572 microseconds.
 
 ]]></system-out>
   <system-err><![CDATA[]]></system-err>

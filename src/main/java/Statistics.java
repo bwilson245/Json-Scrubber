@@ -4,14 +4,16 @@ public class Statistics {
     private int totalObjects;
     private int totalArrays;
     private int totalPrimitives;
+    private int totalNull;
     private int totalScrubbedElements;
 
-    public Statistics(double processTimeInMicroSeconds, int totalElements, int totalObjects, int totalArrays, int totalPrimitives, int totalScrubbedElements) {
+    public Statistics(double processTimeInMicroSeconds, int totalElements, int totalObjects, int totalArrays, int totalPrimitives,int totalNull, int totalScrubbedElements) {
         this.processTimeInMicroSeconds = processTimeInMicroSeconds;
         this.totalElements = totalElements;
         this.totalObjects = totalObjects;
         this.totalArrays = totalArrays;
         this.totalPrimitives = totalPrimitives;
+        this.totalNull = totalNull;
         this.totalScrubbedElements = totalScrubbedElements;
     }
 
@@ -45,6 +47,12 @@ public class Statistics {
     public void setTotalPrimitives(int totalPrimitives) {
         this.totalPrimitives = totalPrimitives;
     }
+    public int getTotalNull() {
+        return totalNull;
+    }
+    public void setTotalNull(int totalNull) {
+        this.totalNull = totalNull;
+    }
     public int getTotalScrubbedElements() {
         return totalScrubbedElements;
     }
@@ -54,7 +62,7 @@ public class Statistics {
 
     @Override
     public String toString() {
-        return "Statistics{" + "processTimeInMicroSeconds=" + processTimeInMicroSeconds + ", totalElements=" + totalElements + ", totalObjects=" + totalObjects + ", totalArrays=" + totalArrays + ", totalPrimitives=" + totalPrimitives + ", totalScrubbedElements=" + totalScrubbedElements + '}';
+        return "Statistics{" + "processTimeInMicroSeconds=" + processTimeInMicroSeconds + ", totalElements=" + totalElements + ", totalObjects=" + totalObjects + ", totalArrays=" + totalArrays + ", totalPrimitives=" + totalPrimitives + ", totalNull=" + totalNull + ", totalScrubbedElements=" + totalScrubbedElements + '}';
     }
     public static Builder builder() {
         return new Builder();
@@ -66,6 +74,7 @@ public class Statistics {
         private int totalObjects;
         private int totalArrays;
         private int totalPrimitives;
+        private int totalNull;
         private int totalScrubbedElements;
 
         private Builder() {
@@ -90,12 +99,16 @@ public class Statistics {
             this.totalPrimitives = totalPrimitives;
             return this;
         }
+        public Builder withTotalNull(int totalNull) {
+            this.totalNull = totalNull;
+            return this;
+        }
         public Builder withTotalScrubbedElements(int totalScrubbedElements) {
             this.totalScrubbedElements = totalScrubbedElements;
             return this;
         }
         public Statistics build() {
-            return new Statistics(processTime, totalElements, totalObjects, totalArrays, totalPrimitives, totalScrubbedElements);
+            return new Statistics(processTime, totalElements, totalObjects, totalArrays, totalPrimitives, totalNull, totalScrubbedElements);
         }
     }
 }

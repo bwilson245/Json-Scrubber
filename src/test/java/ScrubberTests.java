@@ -11,7 +11,7 @@ public class ScrubberTests {
     private ScrubRequest request;
     private Scrubber scrubber;
     private ScrubResult result;
-    private final String validJson = "{\n" + "\"key1\": \"value1\",\n" + "\"key2\": \"value2\",\n" + "\"key3\": \"value3\",\n" + "\"key4\":\n" + "[\n" + "{\n" + "\"key4\": \"value4\",\n" + "\"key5\": \"value5\",\n" + "\"key6\": \"value6\",\n" + "\"key7\": \"value7\",\n" + "\"key8\": \n" + "[\n" + "{\n" + "\"key9\": \"value9\",\n" + "\"key10\": \"value10\"\n" + "}\n" + "]\n" + "}\n" + "]\n" + "}";
+    private final String validJson = "{\n" + "\"key1\": \"value1\",\n" + "\"key2\": null,\n" + "\"key3\": \"value3\",\n" + "\"key4\":\n" + "[\n" + "{\n" + "\"key4\": \"value4\",\n" + "\"key5\": \"value5\",\n" + "\"key6\": \"value6\",\n" + "\"key7\": \"value7\",\n" + "\"key8\": \n" + "[\n" + "{\n" + "\"key9\": \"value9\",\n" + "\"key10\": \"value10\"\n" + "}\n" + "]\n" + "}\n" + "]\n" + "}";
     private final String replacementValue = "*****";
     private List<String> keywords;
 
@@ -21,10 +21,11 @@ public class ScrubberTests {
         keywords = List.of("key1", "key2", "key5", "key8");
         request = new ScrubRequest(replacementValue, keywords, validJson);
         scrubber = new Scrubber(request);
-        int expectedElements = 14;
-        int expectedObjects = 3;
-        int expectedArrays = 2;
-        int expectedPrimitives = 9;
+        int expectedElements = 13;
+        int expectedObjects = 2;
+        int expectedArrays = 1;
+        int expectedPrimitives = 8;
+        int expectedNull = 1;
         int expectedScrubbed = 5;
 
         // WHEN
@@ -32,11 +33,12 @@ public class ScrubberTests {
 
         // THEN
         Assertions.assertNotEquals(JsonParser.parseString(validJson), result.getJsonElement(), "Expected elements to be scrubbed");
-        Assertions.assertEquals(result.getStatistics().getTotalElements(), expectedElements, "Expected totalElements to be " + expectedElements);
-        Assertions.assertEquals(result.getStatistics().getTotalObjects(), expectedObjects, "Expected totalObjects to be " + expectedObjects);
-        Assertions.assertEquals(result.getStatistics().getTotalArrays(), expectedArrays, "Expected totalArrays to be " + expectedArrays);
-        Assertions.assertEquals(result.getStatistics().getTotalPrimitives(), expectedPrimitives, "Expected totalPrimitives to be " + expectedPrimitives);
-        Assertions.assertEquals(result.getStatistics().getTotalScrubbedElements(), expectedScrubbed, "Expected totalScrubbedElements to be " + expectedScrubbed);
+        Assertions.assertEquals(expectedElements, result.getStatistics().getTotalElements(), "Expected totalElements to be " + expectedElements);
+        Assertions.assertEquals(expectedObjects, result.getStatistics().getTotalObjects(), "Expected totalObjects to be " + expectedObjects);
+        Assertions.assertEquals(expectedArrays,result.getStatistics().getTotalArrays(), "Expected totalArrays to be " + expectedArrays);
+        Assertions.assertEquals(expectedPrimitives,result.getStatistics().getTotalPrimitives(), "Expected totalPrimitives to be " + expectedPrimitives);
+        Assertions.assertEquals(expectedNull, result.getStatistics().getTotalNull(), "Expected totalNull to be " + expectedNull);
+        Assertions.assertEquals(expectedScrubbed,result.getStatistics().getTotalScrubbedElements(), "Expected totalScrubbedElements to be " + expectedScrubbed);
     }
 
     @Test

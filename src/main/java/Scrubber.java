@@ -18,18 +18,20 @@ public class Scrubber {
     public int totalObjects;
     public int totalArrays;
     public int totalPrimitives;
+    public int totalNull;
     public int totalScrubbedElements;
     private final ExecutorService service;
 
     public Scrubber(ScrubRequest request) {
         this.service = Executors.newCachedThreadPool();
-        this.element = request.getJsonElement();
+        this.element = new GsonBuilder().serializeNulls().create().fromJson(request.getJsonElement(), JsonElement.class);
         this.keywords = request.getKeywords();
         this.VALUE = JsonParser.parseString(new Gson().toJson(request.getReplacementValue())).getAsJsonPrimitive();
-        this.totalElements = 0;
-        this.totalObjects = 0;
-        this.totalArrays = 0;
+        this.totalElements = -1;
+        this.totalObjects = -1;
+        this.totalArrays = -1;
         this.totalPrimitives = 0;
+        this.totalNull = 0;
         this.totalScrubbedElements = 0;
     }
     /**
@@ -53,10 +55,11 @@ public class Scrubber {
         totalTimeInMicroSeconds = TimeUnit.MICROSECONDS.convert(totalTimeInMicroSeconds, TimeUnit.NANOSECONDS);
         Statistics statistics = Statistics.builder()
                 .withProcessTime(totalTimeInMicroSeconds)
-                .withTotalElements(totalElements)
-                .withTotalObjects(totalObjects)
-                .withTotalArrays(totalArrays)
+                .withTotalElements(totalElements == -1 ? 0 : totalElements)
+                .withTotalObjects(totalObjects == -1 ? 0 : totalObjects)
+                .withTotalArrays(totalArrays == -1 ? 0 : totalArrays)
                 .withTotalPrimitives(totalPrimitives)
+                .withTotalNull(totalNull)
                 .withTotalScrubbedElements(totalScrubbedElements)
                 .build();
         return new ScrubResult(element, statistics);
@@ -99,6 +102,8 @@ public class Scrubber {
                 totalScrubbedElements++;
                 element = VALUE;
             }
+        } else if (element.isJsonNull()) {
+            totalNull++;
         }
         return element;
     }
@@ -128,6 +133,10 @@ public class Scrubber {
             }
         } else if (element.isJsonPrimitive()) {
             totalPrimitives++;
+            totalScrubbedElements++;
+            element = VALUE;
+        } else if (element.isJsonNull()) {
+            totalNull++;
             totalScrubbedElements++;
             element = VALUE;
         }

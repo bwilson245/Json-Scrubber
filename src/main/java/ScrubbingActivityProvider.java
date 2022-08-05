@@ -12,13 +12,9 @@ public class ScrubbingActivityProvider implements RequestHandler<ScrubRequest, O
      * @return - Returns a JsonElement converted to an Object.
      */
 
+
     @Override
     public ScrubResult handleRequest(ScrubRequest input, Context context) {
-        try {
-            return new Scrubber(input).handleRequest();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
+        return new Scrubber(input).handleRequest();
     }
 }

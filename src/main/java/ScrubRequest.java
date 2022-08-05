@@ -1,4 +1,5 @@
-import com.google.gson.Gson;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
@@ -33,8 +34,9 @@ public class ScrubRequest {
     public JsonElement getJsonElement() {
         return jsonElement.deepCopy();
     }
-    public void setJsonElement(Object jsonElement) {
-        this.jsonElement = JsonParser.parseString(new Gson().toJson(jsonElement));
+    public void setJsonElement(Object jsonElement) throws JsonProcessingException {
+        ObjectMapper  mapper = new ObjectMapper();
+        this.jsonElement = JsonParser.parseString(mapper.writeValueAsString(jsonElement));
     }
     @Override
     public String toString() {
