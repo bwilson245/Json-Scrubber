@@ -28,8 +28,8 @@ public class Scrubber {
         this.keywords = request.getKeywords();
         this.VALUE = JsonParser.parseString(new Gson().toJson(request.getReplacementValue())).getAsJsonPrimitive();
         this.totalElements = -1;
-        this.totalObjects = -1;
-        this.totalArrays = -1;
+        this.totalObjects = request.getJsonElement().isJsonObject() ? -1 : 0;
+        this.totalArrays = request.getJsonElement().isJsonArray() ? -1 : 0;
         this.totalPrimitives = 0;
         this.totalNull = 0;
         this.totalScrubbedElements = 0;

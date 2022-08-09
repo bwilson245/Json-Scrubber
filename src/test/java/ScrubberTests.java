@@ -23,7 +23,7 @@ public class ScrubberTests {
         scrubber = new Scrubber(request);
         int expectedElements = 13;
         int expectedObjects = 2;
-        int expectedArrays = 1;
+        int expectedArrays = 2;
         int expectedPrimitives = 8;
         int expectedNull = 1;
         int expectedScrubbed = 5;

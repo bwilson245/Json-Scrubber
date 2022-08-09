@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="ScrubberTests" tests="3" skipped="0" failures="0" errors="0" timestamp="2022-08-09T21:38:24" hostname="BENWILSON" time="0.057">
+  <properties/>
+  <testcase name="handleRequest_validJson_valuesReplaced()" classname="ScrubberTests" time="0.049"/>
+  <testcase name="handleRequest_noKeywords_noChange()" classname="ScrubberTests" time="0.002"/>
+  <testcase name="handleRequest_validRequest_scrubsElements()" classname="ScrubberTests" time="0.005"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
